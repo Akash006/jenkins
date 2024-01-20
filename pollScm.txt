@@ -1,1 +1,1 @@
-Test file for poll SCM
+Test file for poll SCM. Counter 2
