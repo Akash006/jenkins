@@ -1,0 +1,192 @@
+pipeline {
+    agent any
+    stages {
+        stage('Git Checkout') {
+            steps{
+            parallel(
+                "Pull": {
+                    echo "Pulling latest package ..."
+                    sleep(2)
+                },
+                "Verify": {
+                    echo "Verify Packages ..."
+                }
+            )
+            }
+        }
+       stage('Build') {
+            steps{
+            parallel(
+                "Linux-X86": {
+                    echo "Executing Task 1 ..."
+                },
+                "Linux-ARM": {
+                    echo "Executing Task 2 ..."
+                },
+                "Windows": {
+                    echo "Executing Task 3 ..."
+                    sleep(10)
+                },
+                "Mac OS": {
+                    echo "Executing Task 3 ..."
+                }
+
+        	)
+        }
+       }
+       stage('UI Test') {
+            steps{
+            parallel(
+                "Firefox": {
+                    echo "Executing Task 1 ..."
+                },
+                "Chrome": {
+                    echo "Executing Task 2 ..."
+                },
+                "Edge": {
+                    echo "Executing Task 3 ..."
+                    sleep(10)
+                },
+                "Safari": {
+                    echo "Executing Task 3 ..."
+                },
+                "DuckDuckGo": {
+                    echo "Executing Task 3 ..."
+                    sleep(5)
+                },
+                "Opera": {
+                    echo "Executing Task 3 ..."
+                    sleep(7)
+                }
+
+            )
+        }
+       }
+       stage('API Test') {
+            steps{
+            parallel(
+                "Smoke Testing": {
+                    echo "Executing Task 1 ..."
+                },
+                "Functional Testing": {
+                    echo "Executing Task 2 ..."
+                    sleep(4)
+                },
+                "Integration Testing": {
+                    echo "Executing Task 3 ..."
+                    sleep(3)
+                },
+                "Regression Testing": {
+                    echo "Executing Task 3 ..."
+                },
+                "Load Testing": {
+                    echo "Executing Task 3 ..."
+                    sleep(5)
+                },
+                "Stress Testing": {
+                    echo "Executing Task 3 ..."
+                    sleep(6)
+                },
+                "Security Testing": {
+                    echo "Executing Task 3 ..."
+                },
+                "Fuzz Testing": {
+                    echo "Executing Task 3 ..."
+                }
+
+            )
+        }
+       }
+       stage('Monitor') {
+            steps{
+            parallel(
+                "CPU": {
+                    echo "Executing Task 1 ..."
+                },
+                "Memory": {
+                    echo "Executing Task 2 ..."
+                    sleep(6)
+                },
+                "Disk": {
+                    echo "Executing Task 3 ..."
+                    sleep(5)
+                },
+                "Network": {
+                    echo "Executing Task 3 ..."
+                    sleep(6)
+                },
+                "Availability": {
+                    echo "Executing Task 3 ..."
+                    sleep(5)
+                }
+
+            )
+        }
+       }
+       stage('Beta') {
+            steps{
+            parallel(
+                "America": {
+                    echo "Executing Task 1 ..."
+                    sleep(7)
+                },
+                "Europe": {
+                    echo "Executing Task 2 ..."
+                    sleep(5)
+                },
+                "India": {
+                    echo "Executing Task 3 ..."
+                    sleep(6)
+                }
+            )
+        }
+       }
+       stage('Pre-Prod Approval'){
+        steps {
+            input "Please approve"
+        }
+       }
+       stage('Pre-Prod') {
+            steps{
+            parallel(
+                "America": {
+                    echo "Executing Task 1 ..."
+                    sleep(7)
+                },
+                "Europe": {
+                    echo "Executing Task 2 ..."
+                    sleep(5)
+                },
+                "India": {
+                    echo "Executing Task 3 ..."
+                    sleep(6)
+                }
+            )
+        }
+       }
+       stage('Prod Approval'){
+        steps {
+            input "Please approve"
+        }
+       }
+       stage('Prod') {
+            steps{
+            parallel(
+                "America": {
+                    echo "Executing Task 1 ..."
+                    sleep(7)
+                },
+                "Europe": {
+                    echo "Executing Task 2 ..."
+                    sleep(5)
+                },
+                "India": {
+                    echo "Executing Task 3 ..."
+                    sleep(6)
+                }
+            )
+        }
+       }
+
+}
+}
