@@ -1,0 +1,54 @@
+pipeline {
+    agent any
+
+    environment {
+        AWS_ACCESS_KEY_ID     = credentials('aws-access-key')
+        AWS_SECRET_ACCESS_KEY = credentials('aws-secret-key')
+        AWS_DEFAULT_REGION    = 'ap-south-1'
+
+        S3_BUCKET = 'rohit-portpholio-devops'
+    }
+
+    stages {
+
+        stage('Checkout Code') {
+            steps {
+                git(
+                    branch: 'main',
+                    url: 'https://github.com/rs1187600/myportfolio'
+                )
+            }
+        }
+
+        stage('Prepare Artifacts') {
+            steps {
+                sh '''
+                  echo "Preparing files for upload..."
+                '''
+            }
+        }
+
+        stage('Upload to S3') {
+            steps {
+                sh '''
+                  echo "Uploading to S3 bucket: $S3_BUCKET"
+                  ls -l
+                  aws s3 cp . s3://$S3_BUCKET/ --recursive
+                '''
+            }
+        }
+    }
+
+    post {
+    	always {
+            echo 'Cleaning workspace after build'
+            deleteDir()
+        }
+        success {
+            echo "Files successfully uploaded to S3"
+        }
+        failure {
+            echo "Upload failed"
+        }
+    }
+}
